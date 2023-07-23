@@ -4,7 +4,7 @@ async function init() {
   //Fetches list of all cities along with their images and description
   let cities = await fetchCities();
   console.log("From init()");
-  console.log('http://52.66.174.102:8082/cities');
+  console.log(config.backendEndpoint);
   console.log(cities);
 
   //Updates the DOM with the cities
@@ -20,7 +20,7 @@ async function fetchCities() {
   // TODO: MODULE_CITIES
   // 1. Fetch cities using the Backend API and return the data
   try{
-  const response = await fetch('http://52.66.174.102:8082/cities');
+  const response = await fetch(`${config.backendEndpoint}/cities`);
   const data = await response.json();
   return data;
   }
@@ -41,21 +41,22 @@ async function fetchCities() {
 // }
 function addCityToDOM(id, city, description, image) {
   const colDiv = document.createElement('div');
-  colDiv.classList.add('col-sm-12', 'col-md-6', 'col-lg-3', 'mb-4');
-  colDiv.id=id;
+  colDiv.classList.add('col-sm-6','col-lg-3','mb-4');
+  //colDiv.id=id;
 
   const linkElement = document.createElement('a');
-  linkElement.href = '#';
-
+  linkElement.id=id;
+  linkElement.href = `pages/adventures/?city=${id}`;
+  
   const tileDiv = document.createElement('div');
   tileDiv.classList.add('tile');
 
   const tileTextDiv = document.createElement('div');
   tileTextDiv.classList.add('tile-text','text-center');
 
-  const cityTitle = document.createElement('h5');
+  const cityTitle = document.createElement('h3');
   cityTitle.textContent = city;
-  const placesText = document.createElement('h5');
+  const placesText = document.createElement('p');
   placesText.textContent = description;
 
   tileTextDiv.appendChild(cityTitle);
@@ -73,6 +74,20 @@ function addCityToDOM(id, city, description, image) {
 
   const cityList = document.querySelector('#data');
   cityList.appendChild(colDiv);
+//   const cardContainerElement = document.getElementById("data");
+// let cardNew = document.createElement("div");
+// cardNew.classList.add( "col-sm-6", "col-lg-3", "mb-4");
+// cardNew.innerHTML = `<a href="pages/adventures/?city=${id}" id ="${id}">
+//   <div class="tile">
+//     <img src="${image}" alt="Card image cap"/>
+//     <div class="tile-text text-center">
+//     <h3>${city}</h3>
+//     <p>${description}</p>
+//   </div>
+//   </div>
+// </a>`
+// ;
+// cardContainerElement.appendChild(cardNew);
 }
 
 
