@@ -5,13 +5,31 @@ import config from "../conf/index.js";
 function getCityFromURL(search) {
   // TODO: MODULE_ADVENTURES
   // 1. Extract the city id from the URL's Query Param and return it
+  const params = new URLSearchParams(search);
+
+  const cityId = params.get('city');
+
+  return cityId;
 
 }
+  // const url= new URL("http://13.232.164.162:8081/frontend/pages/adventures/?city=bengaluru")
+  // const cityId = getCityFromURL(url.search);
+  // console.log(cityId);
 
 //Implementation of fetch call with a paramterized input based on city
 async function fetchAdventures(city) {
   // TODO: MODULE_ADVENTURES
   // 1. Fetch adventures using the Backend API and return the data
+  try{
+    const response = await fetch(`${config.backendEndpoint}/adventures?city=${city}`);
+    const data = await response.json();
+    return data;
+  }
+  catch(error){
+      // Handle any errors that occurred during the request
+    console.error('Error:', error);
+    return null;
+  };
 
 }
 
@@ -19,7 +37,78 @@ async function fetchAdventures(city) {
 function addAdventureToDOM(adventures) {
   // TODO: MODULE_ADVENTURES
   // 1. Populate the Adventure Cards and insert those details into the DOM
+  const container= document.querySelector("#data");
+  adventures.forEach((adventure)=>{
+    const elementDiv=document.createElement('div');
+    elementDiv.classList.add('col-6','col-lg-3','mb-4');
 
+    const linkElement=document.createElement('a');
+    linkElement.href=`detail/?adventure=${adventure.id}`;
+    linkElement.id=adventure.id;
+
+    const contentDiv=document.createElement('div');
+    contentDiv.classList.add("activity-card");
+
+    const categoryBanner=document.createElement('div');
+    categoryBanner.classList.add('category-banner');
+    categoryBanner.textContent=adventure.category;
+
+    // const imageDiv=document.createElement('div');
+    // imageDiv.classList.add("activity-card","img","overflow-hidden","object-fit-cover");
+
+    const adventureImage=document.createElement('img');
+    adventureImage.classList.add("img-responsive");
+    adventureImage.src=adventure.image;
+    adventureImage.alt=adventure.name;
+
+    //imageDiv.appendChild(adventureImage);
+
+    
+    const textDiv=document.createElement("div");
+    textDiv.classList.add("activity-card-text","text-md-center","w-100","mt-3","px-2");
+
+    const leftDiv=document.createElement('div');
+    leftDiv.classList.add("d-block","d-md-flex","justify-content-between","flex-wrap","pl-3","pr-3");
+    
+    const cardName=document.createElement('h5');
+    cardName.classList.add("text-left");
+    cardName.textContent= adventure.name;
+
+    const inr=document.createElement('p');
+    inr.textContent="₹"+adventure.costPerHead;
+
+
+    leftDiv.appendChild(cardName);
+    leftDiv.appendChild(inr);
+
+    const rightDiv=document.createElement('div');
+    rightDiv.classList.add("d-block","d-md-flex","justify-content-between","flex-wrap","pl-3","pr-3");
+
+    const duration=document.createElement('h5');
+    duration.classList.add("text-left");
+    duration.textContent="Duration";
+
+    const hours=document.createElement('p');
+    hours.textContent=adventure.duration+" hours";
+
+    rightDiv.appendChild(duration);
+    rightDiv.appendChild(hours);
+
+    textDiv.appendChild(leftDiv);
+    textDiv.appendChild(rightDiv);
+
+    contentDiv.appendChild(categoryBanner);
+    contentDiv.appendChild(adventureImage);
+    contentDiv.appendChild(textDiv);
+
+    linkElement.appendChild(contentDiv);
+
+    elementDiv.appendChild(linkElement);
+  
+    container.appendChild(elementDiv);
+  });
+
+  
 }
 
 //Implementation of filtering by duration which takes in a list of adventures, the lower bound and upper bound of duration and returns a filtered list of adventures.
