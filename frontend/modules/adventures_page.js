@@ -1,4 +1,3 @@
-
 import config from "../conf/index.js";
 
 //Implementation to extract city from query params
@@ -6,11 +5,8 @@ function getCityFromURL(search) {
   // TODO: MODULE_ADVENTURES
   // 1. Extract the city id from the URL's Query Param and return it
   const params = new URLSearchParams(search);
-
   const cityId = params.get('city');
-
   return cityId;
-
 }
   // const url= new URL("http://13.232.164.162:8081/frontend/pages/adventures/?city=bengaluru")
   // const cityId = getCityFromURL(url.search);
