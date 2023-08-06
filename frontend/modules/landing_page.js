@@ -20,7 +20,7 @@ async function fetchCities() {
   // TODO: MODULE_CITIES
   // 1. Fetch cities using the Backend API and return the data
   try{
-  const response = await fetch(`${config.backendEndpoint}/cities`);
+  const response = await fetch(config.backendEndpoint+"/cities");
   const data = await response.json();
   return data;
   }
@@ -74,7 +74,9 @@ function addCityToDOM(id, city, description, image) {
 
   const cityList = document.querySelector('#data');
   cityList.appendChild(colDiv);
-//   const cardContainerElement = document.getElementById("data");
+
+  
+// const cardContainerElement = document.querySelector("#data");
 // let cardNew = document.createElement("div");
 // cardNew.classList.add( "col-sm-6", "col-lg-3", "mb-4");
 // cardNew.innerHTML = `<a href="pages/adventures/?city=${id}" id ="${id}">
@@ -83,7 +85,7 @@ function addCityToDOM(id, city, description, image) {
 //     <div class="tile-text text-center">
 //     <h3>${city}</h3>
 //     <p>${description}</p>
-//   </div>
+//     </div>
 //   </div>
 // </a>`
 // ;
