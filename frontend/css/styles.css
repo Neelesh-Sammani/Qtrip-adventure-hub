@@ -118,7 +118,7 @@ footer {
   border-radius: 8px;
   cursor: pointer;
   -webkit-transition: 0.2s all;
-  overflow: hidden;
+  /* overflow: hidden; */
 
   display: flex;
   flex-direction: column;
