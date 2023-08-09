@@ -4,25 +4,51 @@ import config from "../conf/index.js";
 function getAdventureIdFromURL(search) {
   // TODO: MODULE_ADVENTURE_DETAILS
   // 1. Get the Adventure Id from the URL
-
+  const params = new URLSearchParams(search);
+  const adventuresId = params.get('adventure');
+  return adventuresId;
 
   // Place holder for functionality to work in the Stubs
-  return null;
+
 }
 //Implementation of fetch call with a paramterized input based on adventure ID
 async function fetchAdventureDetails(adventureId) {
   // TODO: MODULE_ADVENTURE_DETAILS
   // 1. Fetch the details of the adventure by making an API call
-
+  try{
+    const response = await fetch(`${config.backendEndpoint}/adventures/detail?adventure=${adventureId}`);
+    const data = await response.json();
+    return data;
+  }
+  catch(error){
+    console.error('Error:', error);
+    return null;
+  };
 
   // Place holder for functionality to work in the Stubs
-  return null;
+  
 }
 
 //Implementation of DOM manipulation to add adventure details to DOM
 function addAdventureDetailsToDOM(adventure) {
   // TODO: MODULE_ADVENTURE_DETAILS
   // 1. Add the details of the adventure to the HTML DOM
+  const name = document.querySelector("#adventure-name");
+  name.innerHTML= adventure.name;
+
+  const subtitle = document.querySelector("#adventure-subtitle");
+  subtitle.innerHTML = adventure.subtitle;
+
+  const photos = document.querySelector("#photo-gallery");
+  adventure.images.forEach(image => {
+    const imageEach = document.createElement('img');
+    imageEach.classList.add('activity-card-image');
+    imageEach.src= image;
+    photos.appendChild(imageEach);
+  });
+
+  const content = document.querySelector("#adventure-content");
+  content.innerHTML = adventure.content;
 
 }
 
@@ -30,8 +56,45 @@ function addAdventureDetailsToDOM(adventure) {
 function addBootstrapPhotoGallery(images) {
   // TODO: MODULE_ADVENTURE_DETAILS
   // 1. Add the bootstrap carousel to show the Adventure images
+  const photos = document.querySelector("#photo-gallery");
 
+  let carouselIndicators = "";
+  let carouselItems = "";
+
+  images.forEach((image, index) => {
+    carouselIndicators += `
+      <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="${index}" ${
+      index === 0 ? 'class="active"' : ""
+    } aria-label="Slide ${index + 1}"></button>
+    `;
+
+    carouselItems += `
+      <div class="carousel-item ${index === 0 ? "active" : ""}">
+        <img src="${image}" class="activity-card-image d-block w-100" alt="image not available">
+      </div>
+    `;
+  });
+
+  photos.innerHTML = `
+    <div id="carouselExampleIndicators" class="carousel slide">
+      <div class="carousel-indicators">
+        ${carouselIndicators}
+      </div>
+      <div class="carousel-inner">
+        ${carouselItems}
+      </div>
+      <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Previous</span>
+      </button>
+      <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Next</span>
+      </button>
+    </div>
+  `;
 }
+
 
 //Implementation of conditional rendering of DOM based on availability
 function conditionalRenderingOfReservationPanel(adventure) {
