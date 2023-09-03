@@ -88,7 +88,7 @@
     </div>
     <!-- Footer -->
     <footer>
-        <div class="container">© QTrip 2020</div>
+        <div class="container text-center">Neelesh © QTrip 2023</div>
     </footer>
 
     <!-- Bootstrap script -->
@@ -146,6 +146,7 @@
             // TODO: MODULE_FILTERS
             // 1. Change the DOM to show the selected duration filter. Use the provided input event
             // 2. Invoke saveFiltersToLocalStorage here
+            document.querySelector("#data").textContent = '';
             const selectedDuration = event.target.value;
             filters.duration = selectedDuration;
   

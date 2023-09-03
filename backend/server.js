@@ -15,6 +15,7 @@ dayjs.extend(utc);
 dayjs.extend(timezone);
 dayjs.tz.setDefault("Asia/Kolkata");
 
+
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -238,6 +239,21 @@ app.post("/adventures/new", (req, res) => {
 
 app.listen(process.env.PORT || PORT, () => {
   console.log(`Backend is running on port ${process.env.PORT || PORT}`);
+});
+
+app.delete("/reservations/:id", (req, res) => {
+  const adventureId = db
+    .get("reservations")
+    .value()
+    .find((reservation) => reservation.id === req.params.id).adventure;
+  db.get("reservations")
+    .remove((reservation) => reservation.id === req.params.id)
+    .write();
+  db.get("detail")
+    .find((item) => item.id == adventureId)
+    .assign({ reserved: false, available: true })
+    .write();
+  return res.sendStatus(204);
 });
 
 /*

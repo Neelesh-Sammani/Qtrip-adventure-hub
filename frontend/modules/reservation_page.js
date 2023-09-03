@@ -37,26 +37,6 @@ function addReservationToTable(reservations) {
   const reservationTable = document.querySelector("#reservation-table");
   reservationTable.innerHTML = ""; // Clear previous content
 
-  // Add reservation rows to the existing table
-
-    // Format the date and booking time using Date functions
-
-    // const cells = [
-    //   reservation.id,
-    //   reservation.name,
-    //   reservation.adventureName,
-    //   reservation.person,
-    //   formattedDate,
-    //   '₹'+reservation.price,
-    //   formattedTime,
-    //   `<a href="../detail/?adventure=${reservation.adventure}" class="reservation-visit-button" id="${reservation.id}">Visit Adventure</a>`
-    // ];
-
-    // cells.forEach(cellText => {
-    //   const cell = document.createElement("td");
-    //   cell.innerHTML = cellText;
-    //   row.appendChild(cell);
-    // });
     reservations.map((key,index) => {
       const row = document.createElement("tr");
       const formattedDate = new Date(key.date).toLocaleDateString("en-IN");
@@ -81,9 +61,10 @@ function addReservationToTable(reservations) {
       <td>${formattedDate}</td>
       <td>${key.price}</td>
       <td>${formattedTime}</td>
-      <td><div class="reservation-visit-button" id="${key.id}"><a href="../detail/?adventure=${key.adventure}">Visit Adventure</a></div></td>`
+      <td><div class="reservation-visit-button" id="${key.id}"><a href="../detail/?adventure=${key.adventure}">Visit Adventure</a></div></td>
+      `
 
-      reservationTable.appendChild(row);
+  reservationTable.appendChild(row);
 
     });
 
